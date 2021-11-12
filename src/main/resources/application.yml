@@ -1,0 +1,26 @@
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /demo-logger
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.web: DEBUG
+
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
