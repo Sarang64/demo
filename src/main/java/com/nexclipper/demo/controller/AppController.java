@@ -8,6 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @RestController
 @RequestMapping("/app")
 @Slf4j
@@ -30,5 +38,20 @@ public class AppController {
             log.error("Error occurred {}", e.getMessage());
         }
         return ResponseEntity.ok("Executed");
+    }
+
+    @GetMapping("/generate")
+    public ResponseEntity<String> generate(){
+        int limit = 10000;
+        while(limit>0){
+            try{
+                String str = null;
+                str= str.substring(0);
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+            limit--;
+        }
+        return ResponseEntity.ok("Success");
     }
 }
