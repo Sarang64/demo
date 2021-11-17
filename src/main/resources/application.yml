@@ -27,3 +27,6 @@ management:
 
 application:
   limit: ${LIMIT:100}
+  text: "Unsafe statement written to the binary log using statement format since BINLOG_FORMAT = STATEMENT. The statement is unsafe because it uses a LIMIT clause. This is unsafe because the set of rows included cannot be predicted.Slave SQL thread exiting, replication stopped in log 'dbserver-2-bin.000033' at position 181420; GTID position '0-263316466-368886'. InnoDB: Cannot add field col25 in table db1.tab because after adding it, the row size is 8477 which is greater than maximum allowed size (8126) for a record on index leaf page. "
+  metricValue: ${METRICVALUE:1}
+  #logSize: ${LOGSIZE:30|1,30|2,50|3}
