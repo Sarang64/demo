@@ -16,7 +16,6 @@ import java.util.List;
 public class CustomMetricService {
     private MeterRegistry meterRegistry;
     Counter lightOrderCounter;
-    Counter aleOrderCounter;
     List<Order> orders = new ArrayList<>();
     static int i=0;
     @Value("${application.limit}")
@@ -29,24 +28,14 @@ public class CustomMetricService {
     }
 
     private void initOrderCounters(int i) {
-        lightOrderCounter = this.meterRegistry.counter("metric"+i); // 1 - create a counter
-        aleOrderCounter = Counter.builder("metric"+i)    // 2 - create a counter using the fluent API
-               // .tag("type", "ale")
-                .description("Dummy metric for testing")
-                .register(meterRegistry);
+        lightOrderCounter = this.meterRegistry.counter("demoapp_number"+i); // 1 - create a counter
     }
 
     public void orderBeer(Order order) {
         if(i<=limit) {
-            double number = Math.random();
             initOrderCounters(i);
             orders.add(order);
-
-            if ("light".equals(order.type)) {
-                lightOrderCounter.increment(metricValue);  // 3 - increment the counter
-            } else if ("ale".equals(order.type)) {
-                aleOrderCounter.increment(metricValue);
-            }
+            lightOrderCounter.increment(metricValue);  // 3 - increment the counter
             i++;
         }
     }
