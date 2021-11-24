@@ -1,19 +1,18 @@
 package com.nexclipper.demo.service;
 
-import io.micrometer.core.annotation.Timed;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
-@Slf4j
+//@Slf4j
 /**
  * Generate Logs
  */
 public class EventCreator {
-
+    private static Logger log = LoggerFactory.getLogger(EventCreator.class);
     @Value("${application.text}")
     String sampleLog;
 
@@ -21,7 +20,7 @@ public class EventCreator {
     public void create1() {
         int size = 30;
         while(size>0){
-            log.info(sampleLog);
+            log.error(sampleLog);
             size--;
         }
     }

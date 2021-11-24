@@ -1,13 +1,13 @@
 package com.nexclipper.demo.service;
 
-import com.nexclipper.demo.bean.Order;
-import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 /**
@@ -15,39 +15,62 @@ import java.util.List;
  */
 public class CustomMetricService {
     private MeterRegistry meterRegistry;
-    Counter lightOrderCounter;
-    Counter aleOrderCounter;
-    List<Order> orders = new ArrayList<>();
+//    Counter lightOrderCounter;
+    private AtomicInteger testGauge;
     static int i=0;
-    @Value("${application.limit}")
-    public Integer limit;
+    static int limit1St=0;
+    @Value("${application.limit1}")
+    public Integer limit1;
 
-    @Value("${application.metricValue}")
-    public Integer metricValue;
+    @Value("${application.limit2}")
+    public Integer limit2;
+
+    @Value("${application.metric-value.start}")
+    public Integer startValue;
+
+    @Value("${application.metric-value.end}")
+    public Integer endValue;
+
     public CustomMetricService(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
     }
 
-    private void initOrderCounters(int i) {
-        lightOrderCounter = this.meterRegistry.counter("metric"+i); // 1 - create a counter
-        aleOrderCounter = Counter.builder("metric"+i)    // 2 - create a counter using the fluent API
-               // .tag("type", "ale")
-                .description("Dummy metric for testing")
-                .register(meterRegistry);
+    @Scheduled(fixedRate = 2000)
+    public void metric1() {
+        if(i<= limit1) {
+            meterRegistry.gauge("metric"+i+"_total", randomInt());
+            i++;
+        }else {
+            i=0;
+        }
     }
 
-    public void orderBeer(Order order) {
-        if(i<=limit) {
-            double number = Math.random();
-            initOrderCounters(i);
-            orders.add(order);
+    @Scheduled(fixedRate = 2000)
+    public void metric2() {
+        if(limit1St==0)
+            limit1St=limit1+1;
 
-            if ("light".equals(order.type)) {
-                lightOrderCounter.increment(metricValue);  // 3 - increment the counter
-            } else if ("ale".equals(order.type)) {
-                aleOrderCounter.increment(metricValue);
-            }
-            i++;
+        if(limit1St <= limit2) {
+            meterRegistry.gauge("metric"+limit1St+randomStr()+"_total", randomInt());
+            limit1St++;
+        }else {
+            limit1St=limit1+1;
         }
+    }
+
+    public String randomStr() {
+
+        int length = 15;
+        boolean useLetters = true;
+        boolean useNumbers = false;
+        String generatedString = RandomStringUtils.random(length, useLetters, useNumbers);
+
+        return generatedString;
+    }
+
+    public int randomInt(){
+        Random r = new Random();
+        int result = r.nextInt(endValue-startValue) + startValue;
+        return result;
     }
 }
