@@ -22,27 +22,10 @@ public class DemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
-	static int i =0;
 
 	@Bean
 	public TimedAspect timedAspect(MeterRegistry registry) {
 		return new TimedAspect(registry);
 	}
 
-	@Autowired
-	CustomMetricService beerService;
-	@EventListener(ApplicationReadyEvent.class)
-	public void order() {
-			Flux.interval(Duration.ofSeconds(1))
-					.map(DemoApplication::toOrder)
-					.doOnEach(o -> beerService.orderBeer(o.get()))
-					.subscribe();
-
-	}
-
-	private static Order toOrder(Long l) {
-		double amount = l % 5;
-		String type = l % 2 == 0 ? "ale" : "light";
-		return new Order(amount, type, i);
-	}
 }

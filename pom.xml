@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.nexclipper</groupId>
 	<artifactId>demo</artifactId>
-	<version>v3.5.1</version>
+	<version>v3.5.2</version>
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
