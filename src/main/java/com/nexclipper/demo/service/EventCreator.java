@@ -29,7 +29,7 @@ public class EventCreator {
         if(logsEnable){
             int size = 30;
             while(size>0){
-                log.info(sampleLog);
+                //log.info(sampleLog);
                 logException();
                 size--;
             }
