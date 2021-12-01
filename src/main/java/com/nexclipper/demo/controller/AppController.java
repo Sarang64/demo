@@ -1,5 +1,6 @@
 package com.nexclipper.demo.controller;
 
+import com.nexclipper.demo.service.EventCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/app")
 @Slf4j
 public class AppController {
+
+    @Autowired
+    EventCreator eventCreator;
 
     @Value("${application.text}")
     String sampleLog;
@@ -36,5 +40,10 @@ public class AppController {
             log.info(logStr);
         }
         return ResponseEntity.ok("Success");
+    }
+
+    @GetMapping("/logs/count")
+    public ResponseEntity<Long> getCount(){
+        return ResponseEntity.ok(eventCreator.getCount());
     }
 }
