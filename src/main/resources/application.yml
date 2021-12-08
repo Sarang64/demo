@@ -3,10 +3,10 @@ server:
   servlet:
     context-path: /demo-logger
 
-logging:
-  level:
-    root: DEBUG
-    org.springframework.web: DEBUG
+#logging:
+#  level:
+#    root: DEBUG
+#    org.springframework.web: DEBUG
 
 management:
   metrics:
